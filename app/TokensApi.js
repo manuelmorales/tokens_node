@@ -3,8 +3,8 @@
 var TokensApi = function () {};
 
 TokensApi.prototype = {
-	createToken: function () {
-		return 201;
+	createToken: function (req, res) {
+		res.status(201).send();
 	}
 };
 

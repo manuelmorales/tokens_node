@@ -1,18 +1,17 @@
-var chai = require('chai');
-var expect = chai.expect;
-
-var TokensApi = require('../../app/TokensApi');
+var request = require('supertest');
+var Router = require('../../app/Router');
 
 describe('TokensApi', function () {
 	beforeEach(function() {
-		this.tokensApi = new TokensApi();
+		this.app = new Router();
 	});
 
     describe('Create', function() {
-		it('should return 201 when all ok', function() {
-			var res = this.tokensApi.createToken();
-
-			expect(res).to.be.equals(201);
+		it('returns 201 OK', function (done) {
+			request(this.app)
+				.post('/tokens')
+				.expect(201)
+				.end(done);
 		});
 	});
 });

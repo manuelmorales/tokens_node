@@ -1,6 +1,5 @@
-var express = require('express');
-var app = express();
+var Router = require('app/Router');
 
-app.get('/', function (req, res) { res.send('hola'); });
+var server = new Router();
 
-app.listen(3000);
+server.listen(3000)
