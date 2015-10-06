@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser')
 var TokensApi = require('./TokensApi');
 
-var Router = function (opts) {
+var router = function (opts) {
 	var tokensApi = new TokensApi({repository: opts.repository});
 	var app = express();
 
@@ -12,4 +12,4 @@ var Router = function (opts) {
 	return app;
 };
 
-module.exports = Router;
+module.exports = router;
