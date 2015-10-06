@@ -1,17 +1,13 @@
 var express = require('express');
 var TokensApi = require('./TokensApi');
-var app = express();
 
-var Router = function () {
-	var tokensApi = new TokensApi();
+var Router = function (opts) {
+	var tokensApi = new TokensApi({repository: opts.repository});
+	var app = express();
 
-	var init = function () {
-		app.post('/tokens', tokensApi.createToken);
+	app.post('/tokens', tokensApi.createToken.bind(tokensApi));
 
-		return app;
-	};
-
-	return init();
+	return app;
 };
 
 module.exports = Router;
