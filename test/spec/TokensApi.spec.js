@@ -21,15 +21,23 @@ describe('TokensApi', function () {
 		it('creates the token', function (done) {
 			var repo = this.repository;
 
+			var expected_attrs = {
+				content: 'some content',
+				maxAge: 59,
+				type: 'testing'
+			}
+
 			request(this.app)
 				.post('/tokens')
-				.send({content: 'some content'})
+				.send(expected_attrs)
 				.end(function (err) {
 					if (err) {
 						done(err);
 					} else {
 						assert(repo.create.calledOnce, 'Repository create not called');
-						assert(repo.create.calledWith({content: 'some content'}), 'Wrong content');
+						assert.equal(repo.create.args[0][0].content, expected_attrs.content)
+						assert.equal(repo.create.args[0][0].maxAge, expected_attrs.maxAge)
+						assert.equal(repo.create.args[0][0].type, expected_attrs.type)
 						done();
 					}
 				});

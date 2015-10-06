@@ -1,7 +1,7 @@
 'use strict';
 
 var createToken = function (req, res) {
-	this.repository.create({content: req.body.content});
+	this.repository.create(req.body);
 	res.status(201).send();
 }
 
