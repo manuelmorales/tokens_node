@@ -6,7 +6,10 @@ var assert = chai.assert;
 
 describe('TokensApi', function () {
 	beforeEach(function() {
-		this.repository = {create: sinon.spy()};
+		var repoCreate = function () { return {id: 33} }
+		this.repository = {create: repoCreate};
+		sinon.spy(this.repository, 'create');
+
 		this.app = router({repository: this.repository});
 	});
 
@@ -42,6 +45,36 @@ describe('TokensApi', function () {
 					}
 				});
 
+		});
+
+		it('returns no body', function (done) {
+			request(this.app)
+				.post('/tokens')
+				.send({})
+				.expect(201)
+				.end(function (err, call) {
+					if (err) {
+						done(err);
+					} else {
+						assert.equal(call.res.body, undefined)
+						done();
+					}
+				});
+		});
+
+		it('returns the token URL in the location header', function (done) {
+			request(this.app)
+				.post('/tokens')
+				.send({})
+				.expect(201)
+				.end(function (err, call) {
+					if (err) {
+						done(err);
+					} else {
+						assert.equal(call.res.headers.location, '/tokens/33')
+						done();
+					}
+				});
 		});
 	});
 });
