@@ -23,11 +23,13 @@ describe('TokensApi', function () {
 
 			request(this.app)
 				.post('/tokens')
+				.send({content: 'some content'})
 				.end(function (err) {
 					if (err) {
 						done(err);
 					} else {
 						assert(repo.create.calledOnce, 'Repository create not called');
+						assert(repo.create.calledWith({content: 'some content'}), 'Wrong content');
 						done();
 					}
 				});

@@ -22,6 +22,7 @@
     "supervisor": "^0.8.0"
   },
   "dependencies": {
+    "body-parser": "^1.14.1",
     "express": "^4.13.3"
   },
   "engine": "node >= 0.10.36"
