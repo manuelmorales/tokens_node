@@ -1,10 +1,11 @@
+var url = require('url');
+
 module.exports = function(opts){
-  var request = opts.request || require('request');
-  var url = require('url');
+  var request = opts.request;
 
   var authUrl = opts.url;
   var env = getEnv(authUrl);
-  var cookieKey = env + '_session_id';
+  var cookieKey = opts.cookieKey || (env + '_session_id');
 
   function authentication(req, res, next) {
     var cookies = appendCookie(
