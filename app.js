@@ -1,4 +1,4 @@
-var router = require('app/router');
-var server = new router();
+var router = require('./app/router');
+var server = router();
 
 server.listen(3000)
