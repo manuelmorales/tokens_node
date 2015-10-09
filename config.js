@@ -1,6 +1,6 @@
 module.exports = {
-  authentication: {
-    url: 'http://qa.workshare.com/current_user.json'
-  },
-  request: require('request')
+  authenticator: require('./app/authenticator')({
+    url: 'http://qa.workshare.com/current_user.json',
+    request: require('request')
+  })
 }
