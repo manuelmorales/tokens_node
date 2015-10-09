@@ -1,5 +1,5 @@
 var request = require('supertest');
-var Router = require('../../app/Router');
+var router = require('../../app/router');
 var sinon = require('sinon');
 var chai = require('chai');
 var assert = chai.assert;
@@ -10,7 +10,7 @@ describe('TokensApi', function () {
 		this.repository = {create: repoCreate};
 		sinon.spy(this.repository, 'create');
 
-		this.app = Router({repository: this.repository});
+		this.app = router({repository: this.repository});
 	});
 
     describe('Create', function() {
