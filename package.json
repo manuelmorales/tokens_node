@@ -6,7 +6,6 @@
   "repository": "manuelmorales/tokens-node",
   "main": "app.js",
   "scripts": {
-    "prestart": "npm test",
     "start": "supervisor app.js",
     "lint": "jshint ./ --reporter node_modules/jshint-stylish-ex/stylish.js --config .jshintrc",
     "test": "mocha --recursive"
@@ -19,7 +18,8 @@
     "supertest": "^1.1.0",
     "sinon": "^1.16.1",
     "sinon-chai": "^2.8.0",
-    "supervisor": "^0.8.0"
+    "supervisor": "^0.8.0",
+    "request": "latest"
   },
   "dependencies": {
     "body-parser": "^1.14.1",
