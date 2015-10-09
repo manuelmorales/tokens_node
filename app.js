@@ -7,7 +7,6 @@ var db = mongoose.connect(config.mongo.uri, config.mongo.options);
 
 var tokenActions = require('./app/actions/TokenActions').tokenActions;
 var Router = require('./app/Router');
-require('./app/models/Token');
 var server = new Router({});
 
 tokenActions.create({

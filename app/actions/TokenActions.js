@@ -8,6 +8,7 @@ var tokenActions = {
             expiryDate: params.maxAge,
             type: params.type
         });
+        console.log(token.save)
         token.save(function (err) {
             if (err) {
                 callback(null, err);
