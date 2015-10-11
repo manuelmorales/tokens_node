@@ -17,10 +17,6 @@ TokensAction.prototype = {
         return this.repository.getAll();
     },
 
-    update: function(token) {
-        return this.repository.update(token);
-    },
-
     delete: function(uuid) {
         this.repository.delete(uuid);
     }

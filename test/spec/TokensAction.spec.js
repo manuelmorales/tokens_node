@@ -67,15 +67,6 @@ describe('TokensAction', function () {
         });
     });
 
-    describe('Update', function() {
-
-        it('should delegate to db', function() {
-            var updatedToken = this.tokensAction.update(this.token);
-
-            expect(updatedToken).to.be.deep.equals(this.token);
-        });
-    });
-
     describe('delete', function() {
 
         it('should delegate to db', function() {
