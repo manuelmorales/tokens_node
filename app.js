@@ -1,6 +1,7 @@
 var router = require('./app/router');
 var config = require('./config');
 var TokenActions = require('./app/actions/TokenActions');
+var TokensApi = require('./app/TokensApi');
 
 var tokensApi = new TokensApi({tokenActions: TokenActions});
 var server = router({tokensApi: tokensApi, config: config});
