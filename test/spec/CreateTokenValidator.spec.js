@@ -38,6 +38,7 @@ describe('CreateTokenValidator', function () {
 				.post('/tokens')
 				.send(this.validToken)
 				.expect(422)
+				.expect('{"error":"content is a mandatory attribute"}')
 				.end(done)
 		});
 
