@@ -10,7 +10,7 @@ var router = function (opts) {
 
 	app.use(bodyParser.json());
 
-	if(opts.authenticator) app.use(opts.config.authenticator);
+	if(opts.authenticator) app.use(opts.authenticator);
 
 
     app.post('/tokens', opts.createTokenValidator, this.tokensApi.createToken.bind(tokensApi));
