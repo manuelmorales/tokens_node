@@ -38,7 +38,7 @@ describe('CreateTokenValidator', function () {
 				.post('/tokens')
 				.send(this.validToken)
 				.expect(422)
-				.expect('{"error":"content is a mandatory attribute"}')
+				.expect('{"errors":[{"message":"content is a mandatory attribute"}]}')
 				.end(done)
 		});
 
@@ -49,6 +49,7 @@ describe('CreateTokenValidator', function () {
 				.post('/tokens')
 				.send(this.validToken)
 				.expect(422)
+				.expect('{"errors":[{"message":"type is a mandatory attribute"}]}')
 				.end(done)
 		});
 
@@ -58,6 +59,7 @@ describe('CreateTokenValidator', function () {
 			request(this.app)
 				.post('/tokens')
 				.send(this.validToken)
+				.expect('{"errors":[{"message":"maxAge must be an integer"}]}')
 				.expect(422)
 				.end(done)
 		});
