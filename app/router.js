@@ -10,7 +10,7 @@ var router = function (opts) {
 
   if(opts.authenticator) app.use(opts.authenticator);
 
-  app.post('/tokens', tokensApi.createToken.bind(tokensApi));
+  app.post('/tokens', opts.createTokenValidator, tokensApi.createToken.bind(tokensApi));
 
 	return app;
 };

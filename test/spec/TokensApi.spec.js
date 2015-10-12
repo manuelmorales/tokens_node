@@ -3,6 +3,7 @@ var router = require('../../app/router');
 var sinon = require('sinon');
 var chai = require('chai');
 var assert = chai.assert;
+var createTokenValidator = require('../../app/createTokenValidator');
 
 describe('TokensApi', function () {
 	beforeEach(function() {
@@ -10,29 +11,31 @@ describe('TokensApi', function () {
 		this.repository = {create: repoCreate};
 		sinon.spy(this.repository, 'create');
 
-		this.app = router({repository: this.repository});
+		this.validToken = {content: 'content', type: 'login', uuid: "user-uuid",
+	   					   expiryDate: Date.now(), createDate: Date.now(), createUser : 'pepe' }; 
+
+		this.app = router({
+			repository: this.repository,
+			createTokenValidator: createTokenValidator
+		});
 	});
 
     describe('Create', function() {
 		it('returns 201 OK', function (done) {
 			request(this.app)
 				.post('/tokens')
+				.send(this.validToken)
 				.expect(201)
 				.end(done);
 		});
 
 		it('creates the token', function (done) {
 			var repo = this.repository;
-
-			var expected_attrs = {
-				content: 'some content',
-				maxAge: 59,
-				type: 'testing'
-			}
+			var expected_attrs = this.validToken
 
 			request(this.app)
 				.post('/tokens')
-				.send(expected_attrs)
+				.send(this.validToken)
 				.end(function (err) {
 					if (err) {
 						done(err);
@@ -50,7 +53,7 @@ describe('TokensApi', function () {
 		it('returns no body', function (done) {
 			request(this.app)
 				.post('/tokens')
-				.send({})
+				.send(this.validToken)
 				.expect(201)
 				.end(function (err, call) {
 					if (err) {
@@ -65,7 +68,7 @@ describe('TokensApi', function () {
 		it('returns the token URL in the location header', function (done) {
 			request(this.app)
 				.post('/tokens')
-				.send({})
+				.send(this.validToken)
 				.expect(201)
 				.end(function (err, call) {
 					if (err) {
