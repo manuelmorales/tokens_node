@@ -11,8 +11,11 @@ describe('TokensApi', function () {
 		this.repository = {create: repoCreate};
 		sinon.spy(this.repository, 'create');
 
-		this.validToken = {content: 'content', type: 'login', uuid: "user-uuid",
-	   					   expiryDate: Date.now(), createDate: Date.now(), createUser : 'pepe' }; 
+		this.validToken = {
+			content: 'content',
+			type: 'login',
+			maxAge: 99
+		};
 
 		this.app = router({
 			repository: this.repository,

@@ -7,8 +7,12 @@ var validator = require('../../app/createTokenValidator');
 
 describe('CreateTokenValidator', function () {
 	beforeEach(function() {
-		this.validToken = {content: 'content', type: 'login', uuid: "user-uuid",
-	   					   expiryDate: Date.now(), createDate: Date.now(), createUser : 'pepe' }; 
+		this.validToken = {
+			content: 'content',
+			type: 'login',
+			maxAge: 99
+		};
+
 		this.app = express();
 		this.app.use(bodyParser.json());
 		this.validator = validator;
@@ -20,7 +24,7 @@ describe('CreateTokenValidator', function () {
 		it('returns 201 OK', function (done) {
 			request(this.app)
 				.post('/tokens')
-				.send({content: 'my content'})
+				.send(this.validToken)
 				.expect(201)
 				.end(done);
 		});
@@ -28,18 +32,33 @@ describe('CreateTokenValidator', function () {
 
     describe('invalid request', function() {
 		it('fails when no content is given', function (done) {
-		request(this.app)
-			.post('/tokens')
-			.send({})
-			.expect(422)
-			.end(done)
+			this.validToken.content = undefined
+
+			request(this.app)
+				.post('/tokens')
+				.send(this.validToken)
+				.expect(422)
+				.end(done)
 		});
-	it('fails when no type is given', function (done) {
-		request(this.app)
-			.post('/tokens')
-			.send({})
-			.expect(422)
-			.end(done)
+
+		it('fails when no type is given', function (done) {
+			this.validToken.type = undefined
+
+			request(this.app)
+				.post('/tokens')
+				.send(this.validToken)
+				.expect(422)
+				.end(done)
+		});
+
+		it('fails when maxAge is no an integer', function (done) {
+			this.validToken.maxAge = 'some string'
+
+			request(this.app)
+				.post('/tokens')
+				.send(this.validToken)
+				.expect(422)
+				.end(done)
 		});
 
 	});
