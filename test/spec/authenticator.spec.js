@@ -16,13 +16,10 @@ describe('authenticator', function () {
       }
     };
 
-    this.resStatus = sinon.spy();
-    this.resJson = sinon.spy();
-    this.resEnd = sinon.spy();
     this.res = {
-      status: this.resStatus,
-      json: this.resJson,
-      end: this.resEnd
+      status: sinon.spy(),
+      json: sinon.spy(),
+      end: sinon.spy()
     };
 
     this.next = sinon.spy();
@@ -91,12 +88,12 @@ describe('authenticator', function () {
       it('responds with an error', function() {
         this.authenticator(this.req, this.res, this.next);
 
-        assert(this.resStatus.calledWith(401), '401 was not returned');
-        assert(this.resJson.called, 'Error message was not returned');
-        assert(this.resJson.calledWith({error: {message: 'Auth error'}}),
+        assert(this.res.status.calledWith(401), '401 was not returned');
+        assert(this.res.json.called, 'Error message was not returned');
+        assert(this.res.json.calledWith({error: {message: 'Auth error'}}),
           'Error message was not returned in format'
         );
-        assert(this.resEnd.called, 'Response was not ended');
+        assert(this.res.end.called, 'Response was not ended');
       });
     });
 
@@ -118,12 +115,12 @@ describe('authenticator', function () {
       it('responds with an error', function() {
         this.authenticator(this.req, this.res, this.next);
 
-        assert(this.resStatus.calledWith(401), '401 was not returned');
-        assert(this.resJson.called, 'Error message was not returned');
-        assert(this.resJson.calledWith({error: {message: 'Auth error'}}),
+        assert(this.res.status.calledWith(401), '401 was not returned');
+        assert(this.res.json.called, 'Error message was not returned');
+        assert(this.res.json.calledWith({error: {message: 'Auth error'}}),
           'Error message was not returned in format'
         );
-        assert(this.resEnd.called, 'Response was not ended');
+        assert(this.res.end.called, 'Response was not ended');
       });
     });
   });
