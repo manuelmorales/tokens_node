@@ -9,11 +9,4 @@ var tokenActions = require('./app/actions/TokenActions').tokenActions;
 var Router = require('./app/Router');
 var server = new Router({});
 
-tokenActions.create({
-    creator: 'pepe'
-}, function(){
-    console.log(arguments);
-})
-
-
 server.listen(3000)
