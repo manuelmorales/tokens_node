@@ -3,6 +3,7 @@ var request = require('supertest');
 var bodyParser = require('body-parser');
 var chai = require('chai');
 var assert = chai.assert;
+var validator = require('../../app/createTokenValidator');
 
 describe('CreateTokenValidator', function () {
 	beforeEach(function() {
@@ -10,13 +11,7 @@ describe('CreateTokenValidator', function () {
 	   					   expiryDate: Date.now(), createDate: Date.now(), createUser : 'pepe' }; 
 		this.app = express();
 		this.app.use(bodyParser.json());
-		this.validator = function (req, res, next) {
-			if (req.body.content) {
-				next();
-			} else {
-				res.sendStatus(422);
-			}
-		}
+		this.validator = validator;
 		this.app.use(this.validator);
 		this.app.post('/tokens', function (req, res) { res.status(201).send(); });
 	});
