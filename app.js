@@ -1,6 +1,10 @@
 var router = require('./app/router');
 var config = require('./config');
-var server = router(config);
+var TokenActions = require('./app/actions/TokenActions');
+
+var tokensApi = new TokensApi({tokenActions: TokenActions});
+var server = router({tokensApi: tokensApi, config: config});
+
 var mongoose = require('mongoose'),
     config_file = require('./config/config.json');
 

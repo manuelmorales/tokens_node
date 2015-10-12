@@ -1,5 +1,7 @@
 var request = require('supertest');
 var router = require('../../app/router');
+var TokenActions = require('../../app/actions/TokenActions');
+var TokensApi = require('../../app/TokensApi');
 var sinon = require('sinon');
 var chai = require('chai');
 var assert = chai.assert;
@@ -7,9 +9,13 @@ var createTokenValidator = require('../../app/createTokenValidator');
 
 describe('TokensApi', function () {
 	beforeEach(function() {
-		var repoCreate = function () { return {id: 33} }
-		this.repository = {create: repoCreate};
-		sinon.spy(this.repository, 'create');
+
+        this.tokenActions = TokenActions;
+        this.tokenActions.create= function() {
+            return {id:1}
+        };
+
+        this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
 
 		this.validToken = {
 			content: 'content',
@@ -18,9 +24,10 @@ describe('TokensApi', function () {
 		};
 
 		this.app = router({
-			repository: this.repository,
+            tokensApi: this.tokensApi,
 			createTokenValidator: createTokenValidator
 		});
+
 	});
 
     describe('Create', function() {
@@ -30,27 +37,6 @@ describe('TokensApi', function () {
 				.send(this.validToken)
 				.expect(201)
 				.end(done);
-		});
-
-		it('creates the token', function (done) {
-			var repo = this.repository;
-			var expected_attrs = this.validToken
-
-			request(this.app)
-				.post('/tokens')
-				.send(this.validToken)
-				.end(function (err) {
-					if (err) {
-						done(err);
-					} else {
-						assert(repo.create.calledOnce, 'Repository create not called');
-						assert.equal(repo.create.args[0][0].content, expected_attrs.content)
-						assert.equal(repo.create.args[0][0].maxAge, expected_attrs.maxAge)
-						assert.equal(repo.create.args[0][0].type, expected_attrs.type)
-						done();
-					}
-				});
-
 		});
 
 		it('returns no body', function (done) {
@@ -77,10 +63,14 @@ describe('TokensApi', function () {
 					if (err) {
 						done(err);
 					} else {
-						assert.equal(call.res.headers.location, '/tokens/33')
+						assert.equal(call.res.headers.location, '/tokens/1')
 						done();
 					}
 				});
 		});
 	});
+
+	function getToken(i) {
+		return {uuid: i, body: i}
+	}
 });

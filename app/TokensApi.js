@@ -1,7 +1,9 @@
 'use strict';
 
 var createToken = function (req, res) {
-	var token = this.repository.create(req.body);
+	console.log('createToken', this.tokenActions);
+
+	var token = this.tokenActions.create(req.body);
 
 	res.header('Location', '/tokens/' + token.id);
 
@@ -11,7 +13,7 @@ var createToken = function (req, res) {
 }
 
 var TokensApi = function (opts) {
-	this.repository = opts.repository;
+	this.tokenActions = opts.tokenActions;
 	this.createToken = createToken.bind(this);
 };
 
