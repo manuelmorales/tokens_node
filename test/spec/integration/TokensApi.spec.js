@@ -1,7 +1,5 @@
 var config = require('../../../config');
 var request = require('supertest');
-var chai = require('chai');
-var assert = chai.assert;
 var mongoose = require('mongoose');
 
 describe('integration', function () {
