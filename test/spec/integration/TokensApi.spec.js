@@ -4,7 +4,7 @@ var chai = require('chai');
 var assert = chai.assert;
 var mongoose = require('mongoose');
 
-describe.only('integration', function () {
+describe('integration', function () {
 	describe('TokensApi', function () {
 		before(function() {
 			this.validToken = {
