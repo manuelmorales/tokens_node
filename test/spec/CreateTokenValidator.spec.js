@@ -1,8 +1,6 @@
 var express = require('express');
 var request = require('supertest');
 var bodyParser = require('body-parser');
-var chai = require('chai');
-var assert = chai.assert;
 var validator = require('../../app/createTokenValidator');
 
 describe('CreateTokenValidator', function () {

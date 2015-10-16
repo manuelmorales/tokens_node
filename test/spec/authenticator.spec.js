@@ -37,8 +37,8 @@ describe('authenticator', function () {
       var that = this;
 
       this.request = function(opts, callback){
-        var validUrl = (opts.url == that.url);
-        var cookie = opts.headers['Cookie'];
+        var validUrl = (opts.url === that.url);
+        var cookie = opts.headers.Cookie;
         var validCookie = cookie.indexOf('qa_session_id=mysessionid;') > -1;
 
         if(validUrl && validCookie) {

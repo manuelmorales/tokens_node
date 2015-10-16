@@ -1,4 +1,3 @@
-var sinon = require('sinon');
 var chai = require('chai');
 var assert = chai.assert;
 var err = false;
@@ -33,7 +32,7 @@ describe('TokenActions', function() {
 
     describe('showActions', function(){
         before(function(done){
-            var connection = mongoose.connect("mongodb://localhost/token-test");
+            mongoose.connect("mongodb://localhost/token-test");
             var Token = require('../../../app/models/Token');
             tokenActions = require('../../../app/actions/TokenActions')(Token);
             var token1 = new Token({

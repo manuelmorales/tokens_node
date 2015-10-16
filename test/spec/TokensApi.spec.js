@@ -2,7 +2,6 @@ var request = require('supertest');
 var router = require('../../app/router');
 var TokenActions = require('../../app/actions/TokenActions');
 var TokensApi = require('../../app/TokensApi');
-var sinon = require('sinon');
 var chai = require('chai');
 var assert = chai.assert;
 var createTokenValidator = require('../../app/createTokenValidator');
@@ -69,8 +68,4 @@ describe('TokensApi', function () {
 				});
 		});
 	});
-
-	function getToken(i) {
-		return {uuid: i, body: i}
-	}
 });

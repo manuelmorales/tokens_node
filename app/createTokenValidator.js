@@ -9,7 +9,7 @@ var validator = function (req, res, next) {
 	   	errors.push({message: 'type is a mandatory attribute' });
 	}
 
-	if (typeof(req.body.maxAge) != 'number') {
+	if (typeof(req.body.maxAge) !== 'number') {
 	   	errors.push({message: 'maxAge must be an integer' });
 	}
 
