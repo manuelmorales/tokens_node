@@ -44,8 +44,8 @@ describe('TokenActions', function() {
 
         after(function(done){
             mongoose.connection.db.dropCollection('tokens', function () {
-                done();
             });
+			mongoose.disconnect(done);
         });
 
         describe('getByUuid', function(){

@@ -10,18 +10,20 @@ var tokensApi = new TokensApi({tokenActions: TokenActions});
 var authenticator = require('./app/authenticator')({
 	url: 'http://qa.workshare.com/current_user.json',
 	request: require('request')
-})
-
-
-var server = router({
-	tokensApi: tokensApi,
-	authenticator: authenticator,
-  swaggerMiddleware: swaggerMiddleware,
-	createTokenValidator: require('./app/createTokenValidator')
 });
 
-mongoose.connect(config_file.mongo.uri, config_file.mongo.options);
-
 module.exports = {
-  server: function () { return server },
-}
+	server: function () { 
+		mongoose.connect(config_file.mongo.uri, config_file.mongo.options);
+
+		return router({
+			tokensApi: tokensApi,
+			authenticator: authenticator,
+			createTokenValidator: require('./app/createTokenValidator')
+		});
+	},
+
+	stop: function() {
+		mongoose.disconnect();
+	}
+};
