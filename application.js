@@ -5,6 +5,7 @@ var Application = function (config) {
 	var createTokenValidator = config.createTokenValidator;
 	var configFile = config.configFile;
 	var router = config.router;
+	var swaggerMiddleware = config.swaggerMiddleware;
 
 	this.server = function () { 
 		mongoose.connect(configFile.mongo.uri, configFile.mongo.options);
@@ -12,7 +13,8 @@ var Application = function (config) {
 		return router({
 			tokensApi: tokensApi,
 			authenticator: authenticator,
-			createTokenValidator: createTokenValidator
+			createTokenValidator: createTokenValidator,
+			swaggerMiddleware: swaggerMiddleware
 		});
 	};
 

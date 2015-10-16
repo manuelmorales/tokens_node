@@ -18,5 +18,6 @@ module.exports = {
 	createTokenValidator: require('./app/createTokenValidator'),
 	mongoose: mongoose,
 	configFile: configFile,
-	router: router
+	router: router,
+	swaggerMiddleware: swaggerMiddleware
 };
