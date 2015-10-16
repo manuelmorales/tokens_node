@@ -11,8 +11,8 @@ describe('TokensApi', function () {
 	beforeEach(function() {
 
         this.tokenActions = TokenActions;
-        this.tokenActions.create= function() {
-            return {id:1}
+        this.tokenActions.create= function(token, callback) {
+			callback(null, {id: 1});
         };
 
         this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
