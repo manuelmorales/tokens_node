@@ -1,23 +1,30 @@
 var config = require('../../../config');
 var request = require('supertest');
-var mongoose = require('mongoose');
+var Application = require('../../../application');
+
 
 describe('integration', function () {
+	before(function() {
+		this.validToken = {
+			content: 'content',
+			type: 'login',
+			maxAge: 99
+		};
+
+		delete config['authenticator']; 
+
+		this.application = new Application(config);
+
+		this.app = this.application.server();
+
+	});
+
+	after(function() {
+		this.application.stop();
+	});
+
 	describe('TokensApi', function () {
-		before(function() {
-			this.validToken = {
-				content: 'content',
-				type: 'login',
-				maxAge: 99
-			};
-
-			this.app = config.server();
-		});
-
-        after(function(done){
-            mongoose.disconnect(done);
-        });
-
+		
 		describe('Create', function() {
 			it('returns 201 OK', function (done) {
 				request(this.app)
@@ -27,5 +34,6 @@ describe('integration', function () {
 				.end(done);
 			});
 		});
+
 	});
 });
