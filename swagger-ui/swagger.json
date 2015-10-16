@@ -1,48 +1,176 @@
 {
-    "swagger": "2.0",
-    "basePath": "/",
-    "schemes": [
-        "http"
-    ],
-    "paths": {
-
-        "/api/countries/{ips}": {
-            "get": {
-                "tags": [
-                    "Countries"
-                ],
-                "summary": "Get country information for comma separated IP addresses",
-                "description": "Get country information for comma separated IP addresses",
-                "operationId": "getCountryInfoByIps",
-                "produces": [
-                    "application/json",
-                    "application/xml"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "ips",
-                        "description": "IP address(es) to query",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation"
-                    },
-                    "400": {
-                        "description": "Invalid parameter(s) supplied"
-                    }
-                }
+  "swaggerVersion": "1.1",
+  "basePath": "/",
+  "resourcePath": "/v1.0/tokens",
+  "apis": [
+    {
+      "path": "/v1.0/tokens.{format}/",
+      "description": "The tokens API",
+      "operations": [
+        {
+          "httpMethod": "GET",
+          "summary": "Returns all tokens created by this user",
+          "notes": "Requires authentication via session token (sessionid query parameter, session cookie) or signed call",
+          "responseClass": "List[com.workshare.supernova.api.token.model.Sample]",
+          "nickname": "list",
+          "parameters": [
+            {
+              "name": "sessionid",
+              "description": "A non-expired session token acquired from Sessions API",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string"
             }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "The request was malformed"
+            },
+            {
+              "code": 403,
+              "reason": "The user could not be authenticated (wrong or no session id)"
+            }
+          ]
+        },
+        {
+          "httpMethod": "POST",
+          "summary": "Creates a new token",
+          "notes": "Requires authentication via session token (sessionid query parameter, session cookie) or signed call",
+          "responseClass": "void",
+          "nickname": "create",
+          "parameters": [
+            {
+              "description": "The token to be added in the system",
+              "paramType": "body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "TokenRequest"
+            },
+            {
+              "name": "sessionid",
+              "description": "A non-expired session token acquired from Sessions API",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "The request was malformed"
+            },
+            {
+              "code": 403,
+              "reason": "The user could not be authenticated (wrong or no session id)"
+            },
+            {
+              "code": 422,
+              "reason": "The json sent was malformed and/or invalid"
+            }
+          ]
         }
+      ]
     },
-    "securityDefinitions": {
-        "api_key": {
-            "type": "apiKey",
-            "name": "api_key",
-            "in": "header"
+    {
+      "path": "/v1.0/tokens.{format}/{uuid}",
+      "description": "The tokens API",
+      "operations": [
+        {
+          "httpMethod": "DELETE",
+          "summary": "Deletes a token given its uuid",
+          "notes": "Requires authentication via session token (sessionid query parameter, session cookie) or signed call",
+          "responseClass": "void",
+          "nickname": "delete",
+          "parameters": [
+            {
+              "name": "uuid",
+              "description": "The token's uuid",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            },
+            {
+              "name": "sessionid",
+              "description": "A non-expired session token acquired from Sessions API",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "The request was malformed"
+            },
+            {
+              "code": 403,
+              "reason": "The user could not be authenticated (wrong or no session id)"
+            }
+          ]
+        },
+        {
+          "httpMethod": "GET",
+          "summary": "Returns a token given its uuid",
+          "notes": "Requires authentication via session token (sessionid query parameter, session cookie) or signed call",
+          "responseClass": "com.workshare.supernova.api.token.model.Sample",
+          "nickname": "read",
+          "parameters": [
+            {
+              "name": "uuid",
+              "description": "The token's uuid",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            },
+            {
+              "name": "sessionid",
+              "description": "A non-expired session token acquired from Sessions API",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "The request was malformed"
+            },
+            {
+              "code": 403,
+              "reason": "The user could not be authenticated (wrong or no session id)"
+            }
+          ]
         }
+      ]
     }
+  ],
+  "models": {
+    "TokenRequest": {
+      "id": "TokenRequest",
+      "properties": {
+        "content": {
+          "required": true,
+          "description": "The content of this sample",
+          "type": "string"
+        },
+        "maxAge": {
+          "required": true,
+          "description": "The age of this sample in seconds (0 means infinite)",
+          "type": "int"
+        },
+        "type": {
+          "required": true,
+          "description": "The application type of this sample",
+          "type": "string"
+        }
+      }
+    }
+  }
 }
