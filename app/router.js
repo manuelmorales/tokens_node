@@ -9,6 +9,7 @@ var router = function (opts) {
 
 	app.use(bodyParser.json());
 
+  if(opts.swaggerMiddleware) { opts.swaggerMiddleware(app); }
 	if(opts.authenticator) { app.use(opts.authenticator); }
 
 

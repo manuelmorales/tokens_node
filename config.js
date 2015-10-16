@@ -4,6 +4,7 @@ var TokensApi = require('./app/TokensApi');
 var mongoose = require('mongoose')
 var config_file = require('./config/config.json');
 var router = require('./app/router');
+var swaggerMiddleware = require('./app/swaggerMiddleware')({ overrides: __dirname + '/swagger-ui/' });
 
 var tokensApi = new TokensApi({tokenActions: TokenActions});
 var authenticator = require('./app/authenticator')({
@@ -15,6 +16,7 @@ var authenticator = require('./app/authenticator')({
 var server = router({
 	tokensApi: tokensApi,
 	authenticator: authenticator,
+  swaggerMiddleware: swaggerMiddleware,
 	createTokenValidator: require('./app/createTokenValidator')
 });
 
