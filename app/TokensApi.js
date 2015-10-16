@@ -10,8 +10,6 @@ var createToken = function (req, res) {
 			res
 				.status(201)
 				.send();
-		}
-	});
 };
 
 var TokensApi = function (opts) {

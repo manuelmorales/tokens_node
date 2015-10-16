@@ -28,3 +28,6 @@ node_modules
 
 # Webstorm directory
 .idea/*
+
+#eclipse
+.project
