@@ -11,7 +11,7 @@ describe('TokensApi', function () {
 
         this.tokenActions = TokenActions;
         this.tokenActions.create= function(token, callback) {
-			callback(null, {id: 1});
+			callback(null, {id: 1, uuid: 'the-token-uuid'});
         };
 
         this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
@@ -62,7 +62,7 @@ describe('TokensApi', function () {
 					if (err) {
 						done(err);
 					} else {
-						assert.equal(call.res.headers.location, '/tokens/1')
+						assert.equal(call.res.headers.location, '/tokens/the-token-uuid')
 						done();
 					}
 				});
