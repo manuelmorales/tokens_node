@@ -2,10 +2,10 @@
   "env": "development",
   "port": 3000,
   "mongo": {
-    "uri": "mongodb://localhost/fullstack-dev"
+    "uri": "mongodb://localhost/tokens"
   },
   "cirrus": {
-    "url": "http://localhost:9000"
+    "url": "https://qa.workshare.com"
   },
   "redis": {
     "host": "localhost",

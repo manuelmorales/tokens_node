@@ -11,7 +11,7 @@ describe('integration', function () {
 			maxAge: 99
 		};
 
-		delete config['authenticator']; 
+		delete config.authenticator; 
 
 		this.application = new Application(config);
 
