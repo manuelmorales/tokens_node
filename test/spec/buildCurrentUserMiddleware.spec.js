@@ -10,8 +10,14 @@ describe('currentUserMiddleware', function () {
 		this.res = {}
 		this.next = sinon.spy();
 		this.currentUser = {}
-		var getCurrentUser = function () { return that.currentUser }
-		this.currentUserMiddleware = buildCurrentUserMiddleware({getCurrentUser: getCurrentUser});
+
+		this.getCurrentUser = sinon.spy(function () {
+		   	return that.currentUser
+		});
+
+		this.currentUserMiddleware = buildCurrentUserMiddleware({
+			getCurrentUser: that.getCurrentUser
+		});
 	});
 
 	it('calls next', function () {
@@ -22,6 +28,14 @@ describe('currentUserMiddleware', function () {
 	it('injects the user in the request', function () {
 		this.currentUserMiddleware(this.req, this.res, this.next);
 		assert.isDefined(this.req.currentUser);
+	});
+
+	it('passes the request to getCurrentUser', function () {
+		this.currentUserMiddleware(this.req, this.res, this.next);
+		assert(
+			this.getCurrentUser.calledWith(this.req),
+		   	'request not passed to getCurrentUser'
+		);
 	});
 
 	it('sets the user uuid to the one received', function () {
