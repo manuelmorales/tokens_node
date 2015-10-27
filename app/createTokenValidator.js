@@ -1,6 +1,8 @@
 var validator = function (req, res, next) {
 	var errors = [];
 
+	console.log("[Token Validator], request: " + JSON.stringify(req.body.content));
+
 	if (!req.body.content) {
 	   	errors.push({message: 'content is a mandatory attribute'});
    	}

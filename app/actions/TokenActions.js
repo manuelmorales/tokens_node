@@ -1,9 +1,12 @@
+var date = new Date();
+
 var tokenActions = function(Token) {
     return {
         create : function(params, callback) {
             var token = new Token({
                 createUser: params.creator,
-                expiryDate: params.maxAge,
+                content:    params.content,
+                expiryDate: date.setDate(new Date().getDate() + params.maxAge),
                 type: params.type
             });
             token.save(function (err) {
@@ -13,6 +16,7 @@ var tokenActions = function(Token) {
                     callback(null, token);
                 }
             });
+            date = new Date();
         },
 
         show: function(params, callback) {
