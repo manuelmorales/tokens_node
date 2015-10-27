@@ -7,30 +7,30 @@ var assert = chai.assert;
 var createTokenValidator = require('../../app/createTokenValidator');
 
 describe('TokensApi', function () {
-	beforeEach(function() {
 
-        this.tokenActions = TokenActions;
-        this.tokenActions.create= function(token, callback) {
-			callback(null, {id: 1, uuid: 'the-token-uuid'});
-        };
+    describe('Create', function() {
+	    beforeEach(function() {
 
-        this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
+          this.tokenActions = TokenActions;
+          this.tokenActions.create= function(token, callback) {
+		  	callback(null, {id: 1, uuid: 'the-token-uuid'});
+          };
 
-		this.validToken = {
+          this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
+
+		  this.validToken = {
 			content: 'content',
 			type: 'login',
 			maxAge: 99
-		};
+		  };
 
-		this.app = router({
-            tokensApi: this.tokensApi,
-			createTokenValidator: createTokenValidator
+		  this.app = router({
+              tokensApi: this.tokensApi,
+			  createTokenValidator: createTokenValidator
 		});
 
-	});
-
-    describe('Create', function() {
-		it('returns 201 OK', function (done) {
+	    });
+	    it('returns 201 Created', function (done) {
 			request(this.app)
 				.post('/tokens')
 				.send(this.validToken)
@@ -67,5 +67,29 @@ describe('TokensApi', function () {
 					}
 				});
 		});
+	});
+    describe('Show', function() {
+	    beforeEach(function() {
+
+	      this.tokenActions = TokenActions;
+          this.tokenActions.show= function(token, callback) {
+		  	callback(null, {_id: "562fac3cf9d752d5236aa8cb", content: 'Content', uuid: 'the-token-uuid', expiryDate: "2015-10-27T16:54:20.405Z", type: 'test', __v: 0});
+          };
+
+          this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
+
+		  this.app = router({
+              tokensApi: this.tokensApi,
+              createTokenValidator: createTokenValidator
+		});
+
+	    });
+	    it('returns 200 OK', function (done) {
+			request(this.app)
+				.get('/tokens/'+'random-token-uuid')
+				.expect(200)
+				.end(done);
+		});
+
 	});
 });

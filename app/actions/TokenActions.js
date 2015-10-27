@@ -20,9 +20,7 @@ var tokenActions = function(Token) {
         },
 
         show: function(params, callback) {
-            Token.findOne({
-                uuid: params.uuid
-            }, function(err, token){
+            Token.findOne({ uuid: params.uuid }, function(err, token){
                 callback(err, token);
             });
         },
