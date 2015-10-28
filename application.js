@@ -11,10 +11,10 @@ var Application = function (config) {
 		mongoose.connect(configFile.mongo.uri, configFile.mongo.options);
 
 		return router({
+			swaggerMiddleware: swaggerMiddleware,
 			tokensApi: tokensApi,
 			authenticator: authenticator,
-			createTokenValidator: createTokenValidator,
-			swaggerMiddleware: swaggerMiddleware
+			createTokenValidator: createTokenValidator
 		});
 	};
 

@@ -34,8 +34,10 @@ module.exports = function(opts){
 
   function verifyCurrentUser(session, opts){
     var requestOpts = { url: authUrl, headers: { 'Cookie': session } };
-
+    
+    console.log("[Authenticator] Request: " + JSON.stringify(requestOpts));
     request(requestOpts, function (error, response, body) {
+      console.log("[Authenticator] Cirrus response: " + response.statusCode);
       if(!error && response.statusCode === 200) {
         opts.success(response, body)
       } else {

@@ -14,9 +14,21 @@ var createToken = function (req, res) {
 	});
 };
 
+var show = function (req, res) {
+	this.tokenActions.show(req.params, function(err,token) {
+		if(err)
+			res.send(404);
+		else
+			res
+				.status(200)
+				.send(token);
+	})
+};
+
 var TokensApi = function (opts) {
 	this.tokenActions = opts.tokenActions;
 	this.createToken = createToken.bind(this);
+	this.show = show.bind(this);
 };
 
 module.exports = TokensApi;

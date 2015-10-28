@@ -8,7 +8,7 @@ var swaggerMiddleware = require('./app/swaggerMiddleware')({ overrides: __dirnam
 
 var tokensApi = new TokensApi({tokenActions: TokenActions});
 var authenticator = require('./app/authenticator')({
-	url: 'http://qa.workshare.com/current_user.json',
+	url: 'http://localhost:9292/current_user.json',
 	request: require('request')
 });
 
