@@ -15,8 +15,7 @@ var createToken = function (req, res) {
 };
 
 var show = function (req, res) {
-	console.log('[API] New request: ' + JSON.stringify(req.params));
-	this.tokenActions.show(req.params.uuid, function(err,token) {
+	this.tokenActions.show(req.params, function(err,token) {
 		if(err)
 			res.send(404);
 		else
