@@ -1,5 +1,5 @@
 # tokens_node
-Tokens microservice implemented in Node.js as an cool experiment
+Tokens microservice implemented in Node.js as a cool experiment
 
 ### Installation
 Install node modules:
