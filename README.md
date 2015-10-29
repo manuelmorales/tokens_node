@@ -26,3 +26,4 @@ curl -v -X POST --header "Content-Type: application/json" --cookie
 "Accept: application/json" -d '{"content":"content", "type":"login",
 "maxAge":99 }' 'http://localhost:9000/tokens'
 
+
