@@ -12,7 +12,6 @@ var router = function (opts) {
   if(opts.swaggerMiddleware) { opts.swaggerMiddleware(app); }
   if(opts.authenticator) { app.use(opts.authenticator); }
 
-
   app.post('/tokens', opts.createTokenValidator, this.tokensApi.createToken.bind(this.tokensApi));
 
 

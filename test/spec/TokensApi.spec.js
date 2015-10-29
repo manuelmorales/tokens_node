@@ -3,7 +3,12 @@ var router = require('../../app/router');
 var TokenActions = require('../../app/actions/TokenActions');
 var TokensApi = require('../../app/TokensApi');
 var chai = require('chai');
+var sinon = require('sinon');
+var sinonChai = require('sinon-chai');
+chai.use(sinonChai);	
 var assert = chai.assert;
+var expect = chai.expect;
+
 var createTokenValidator = require('../../app/createTokenValidator');
 
 describe('TokensApi', function () {
@@ -24,12 +29,32 @@ describe('TokensApi', function () {
 			maxAge: 99
 		  };
 
+
 		  this.app = router({
               tokensApi: this.tokensApi,
 			  createTokenValidator: createTokenValidator
 		});
 
 	    });
+
+	    it('calls the action with the creator', function(done){
+	    	spy = sinon.spy(TokenActions, 'create');
+	    	request(this.app)
+				.post('/tokens')
+				.send(this.validToken)
+				.end(function() {
+					finalToken = {
+						content: 'content',
+						type: 'login',
+						maxAge: 99,
+						creator: 'fake-uuid'
+				  };
+				  assert(spy.called); //FIX - assert called with
+				  //expect(spy).to.have.been.calledWith(finalToken, anything);
+                  done();
+				});
+	    });
+
 	    it('returns 201 Created', function (done) {
 			request(this.app)
 				.post('/tokens')

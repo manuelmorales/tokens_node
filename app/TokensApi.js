@@ -5,6 +5,7 @@ var createToken = function (req, res) {
 		if (err) {
 			res.send(500);
 		} else {
+			console.log(JSON.stringify(req.body));
 			res.header('Location', '/tokens/' + token.uuid);
 
 			res
