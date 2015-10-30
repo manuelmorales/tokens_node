@@ -27,12 +27,10 @@ var show = function (req, res) {
 
 var destroy = function(req, res) {
 	this.tokenActions.destroy(req.params, function(err, token, resp) {
-		if(err) {
-			res.send(404);
+		if(err || !token) {
+			res.sendStatus(404);
 		} else {
-			res
-				.status(204)
-				.send();
+			res.sendStatus(204);
 		}
 	});
 }

@@ -77,7 +77,7 @@ describe('integration', function () {
 			});
 		});
 
-		describe.only('Destroy', function(){
+		describe('Destroy', function(){
 			beforeEach(function(){
 				this.doRequest = function(params) {
 					return request(this.app).delete('/tokens/' + this.params.uuid).send();
@@ -86,7 +86,7 @@ describe('integration', function () {
 
 				this.withToken = function(callback) {
 					var token = new Token({
-						uuid: this.uuid,
+						uuid: this.params.uuid,
 	          createUser: 'someone',
 	          content:    'some_content',
 	          expiryDate: (new Date().getDate() + 100000),
@@ -103,23 +103,31 @@ describe('integration', function () {
 
 				describe('when there is a token with the given uuid in the db', function(){
 					it('returns a 204', function(done){
-						this.doRequest(this.params).expect(204).end(done);
+						var that = this;
+
+						this.withToken(function(err){
+							that.doRequest(this.params).expect(204).end(done);
+						});
 					});
 
 					it('removes the elm from the database', function(done){
 						var uuid = this.params.uuid;
 						var that = this;
 
-						this.withToken(function(err, a){
-							that.doRequest(that.params).end(function(error, res){
-								if(error) {
-									done();
-								} else {
-									Token.findOne({ uuid: uuid }, function(err, token){
-										expect(token).to.be.null;
+						this.withToken(function(err){
+							Token.findOne({ uuid: uuid }, function(err, tokenBefore){
+								expect(tokenBefore).to.not.be.null;
+
+								that.doRequest(that.params).end(function(error, res){
+									if(error) {
 										done();
-									});
-								};
+									} else {
+										Token.findOne({ uuid: uuid }, function(err, token){
+											expect(token).to.be.null;
+											done();
+										});
+									};
+								});
 							});
 						});
 					});
@@ -133,9 +141,7 @@ describe('integration', function () {
 					it('returns a 404', function(done){
 						var that = this;
 
-						this.withToken(function(){
-							that.doRequest(that.params).expect(404).end(done);
-						});
+						that.doRequest(that.params).expect(404).end(done);
 					});
 				});
 			});
