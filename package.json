@@ -19,7 +19,8 @@
     "sinon": "^1.16.1",
     "sinon-chai": "^2.8.0",
     "supervisor": "^0.8.0",
-    "request": "latest"
+    "request": "latest",
+    "node-inspector": "latest"
   },
   "dependencies": {
     "body-parser": "^1.14.1",

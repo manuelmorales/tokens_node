@@ -31,9 +31,11 @@ var tokenActions = function(Token) {
             }, function(err, tokens){
                 callback(err, tokens);
             });
+        },
+
+        destroy: function(params, callback) {
+          Token.findOneAndRemove({ uuid: params.uuid }, {passRawResult: true}, callback);
         }
-
-
     }
 
 };

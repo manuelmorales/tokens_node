@@ -20,7 +20,8 @@ var router = function (opts) {
     res.send('pong');
   });
 
-  app.get('/tokens/:uuid',this.tokensApi.show.bind(this.tokensApi));
+  app.get('/tokens/:uuid', this.tokensApi.show.bind(this.tokensApi));
+  app.delete('/tokens/:uuid', this.tokensApi.destroy.bind(this.tokensApi));
 
 
   return app;

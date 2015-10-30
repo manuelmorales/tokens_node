@@ -25,10 +25,23 @@ var show = function (req, res) {
 	})
 };
 
+var destroy = function(req, res) {
+	this.tokenActions.destroy(req.params, function(err, token, resp) {
+		if(err) {
+			res.send(404);
+		} else {
+			res
+				.status(204)
+				.send();
+		}
+	});
+}
+
 var TokensApi = function (opts) {
 	this.tokenActions = opts.tokenActions;
 	this.createToken = createToken.bind(this);
 	this.show = show.bind(this);
+	this.destroy = destroy.bind(this);
 };
 
 module.exports = TokensApi;
