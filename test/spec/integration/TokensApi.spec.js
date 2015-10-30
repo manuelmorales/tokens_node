@@ -29,6 +29,10 @@ describe('integration', function () {
 		this.application.stop();
 	});
 
+	afterEach(function(){
+		Token.remove({}).exec();
+	});
+
 	describe('TokensApi', function () {
 
 		describe('Create', function() {
@@ -122,8 +126,8 @@ describe('integration', function () {
 									if(error) {
 										done();
 									} else {
-										Token.findOne({ uuid: uuid }, function(err, token){
-											expect(token).to.be.null;
+										Token.findOne({ uuid: uuid }, function(err, tokenAfter){
+											expect(tokenAfter).to.be.null;
 											done();
 										});
 									};
