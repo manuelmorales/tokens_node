@@ -54,9 +54,10 @@ describe('integration', function () {
 				.send(this.validToken)
 				.expect(201)
 				.end(function(error,res) {
-				    if(error)
+				    if(error) {
+				    	console.log("ERROR");
 				    	done();
-				    else {
+				    } else {
 				    	request(this.app)
 				    		.get(res.header.location)
 				    		.expect(200)
@@ -66,25 +67,7 @@ describe('integration', function () {
 					}
 				});
 			});
-            it('Returns 200 OK when a valid uuid is provided', function (done) {
-				request(this.app)
-				.post('/tokens')
-				.send(this.validToken)
-				.expect(201)
-				.end(function(error,res) {
-				    if(error)
-				    	done();
-				    else {
-				    	request(this.app)
-				    		.get(res.header.location)
-				    		.expect(200)
-				    		.end(function(error,res) {
-				    			expect(JSON.parse(res.text)).to.have.property('content');
-				    			done();
-				    		});
-					}
-				});
-			});
+            
 		});
 
 	});

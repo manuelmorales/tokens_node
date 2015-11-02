@@ -49,8 +49,7 @@ describe('TokensApi', function () {
 						maxAge: 99,
 						creator: 'fake-uuid'
 				  };
-				  assert(spy.called); //FIX - assert called with
-				  //expect(spy).to.have.been.calledWith(finalToken, anything);
+				  assert(spy.withArgs(finalToken, sinon.match.any));
                   done();
 				});
 	    });
