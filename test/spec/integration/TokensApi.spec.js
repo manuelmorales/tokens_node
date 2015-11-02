@@ -55,14 +55,13 @@ describe('integration', function () {
 				.expect(201)
 				.end(function(error,res) {
 				    if(error) {
-				    	console.log("ERROR");
-				    	done();
+				    	done(error);
 				    } else {
 				    	request(this.app)
 				    		.get(res.header.location)
 				    		.expect(200)
 				    		.end(function(error,res) {
-				    			done();
+				    			done(error);
 				    		});
 					}
 				});
