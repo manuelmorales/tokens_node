@@ -14,13 +14,11 @@ var router = function (opts) {
 
   app.post('/tokens', opts.createTokenValidator, this.tokensApi.createToken.bind(this.tokensApi));
 
-
   app.get('/ping', function(req,res){
     res.send('pong');
   });
 
   app.get('/tokens/:uuid',this.tokensApi.show.bind(this.tokensApi));
-
 
   return app;
 };

@@ -18,7 +18,7 @@ var createToken = function (req, res) {
 var show = function (req, res) {
 	this.tokenActions.show(req.params, function(err,token) {
 		if(err)
-			res.send(404);
+			res.sendStatus(404);
 		else
 			res
 				.status(200)

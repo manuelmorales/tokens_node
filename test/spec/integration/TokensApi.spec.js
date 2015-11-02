@@ -66,8 +66,14 @@ describe('integration', function () {
 					}
 				});
 			});
-            
+            it('Returns 404 when an invalid uuid is provided', function (done) {
+				request(this.app)
+				    .get('/tokens/nonExistingTokenUuid')
+				    .expect(404)
+				    .end(function(error,res) {
+				    	done(error);
+					})
+			});
 		});
-
 	});
 });
