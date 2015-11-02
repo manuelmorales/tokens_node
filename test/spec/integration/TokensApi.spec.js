@@ -116,24 +116,19 @@ describe('integration', function () {
 
 					it('removes the elm from the database', function(done){
 						var uuid = this.params.uuid;
-						var that = this;
 
 						this.withToken(function(err){
-							Token.findOne({ uuid: uuid }, function(err, tokenBefore){
-								expect(tokenBefore).to.not.be.null;
-
-								that.doRequest(that.params).end(function(error, res){
-									if(error) {
+							this.doRequest(this.params).end(function(error, res){
+								if(error) {
+									done();
+								} else {
+									Token.findOne({ uuid: uuid }, function(err, tokenAfter){
+										expect(tokenAfter).to.be.null;
 										done();
-									} else {
-										Token.findOne({ uuid: uuid }, function(err, tokenAfter){
-											expect(tokenAfter).to.be.null;
-											done();
-										});
-									};
-								});
+									});
+								};
 							});
-						});
+						}.bind(this));
 					});
 				});
 
