@@ -126,10 +126,8 @@ describe('TokensApi', function () {
 	    it('returns 403 when the user is not the owner', function(done) {
 	    	request(this.app)
 				.get('/tokens/'+'random-token-uuid')
-				.body({creator: 'other-user'})
 				.expect(403)
 				.end(function(err, res) {
-					
 					done();
 				});
 	    });
