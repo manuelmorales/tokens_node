@@ -26,10 +26,22 @@ var show = function (req, res) {
 	})
 };
 
+var showAll = function (req, res) {
+	this.tokenActions.showAll(req.params, function(err,token) {
+		if(err)
+			res.sendStatus(500);
+		else
+			res
+				.status(200)
+				.send(token);
+	})
+};
+
 var TokensApi = function (opts) {
 	this.tokenActions = opts.tokenActions;
-	this.createToken = createToken.bind(this);
+	this.createToken = createToken.bind(this); 
 	this.show = show.bind(this);
+	this.showAll = showAll.bind(this);
 };
 
 module.exports = TokensApi;

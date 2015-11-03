@@ -20,6 +20,8 @@ var router = function (opts) {
 
   app.get('/tokens/:uuid',this.tokensApi.show.bind(this.tokensApi));
 
+  app.get('/tokens/', this.tokensApi.showAll.bind(this.tokensApi));
+
   return app;
 };
 

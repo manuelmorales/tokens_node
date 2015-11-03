@@ -94,20 +94,18 @@ describe('TokensApi', function () {
 	});
     describe('Show', function() {
 	    beforeEach(function() {
-
 	      this.tokenActions = TokenActions;
           this.tokenActions.show= function(token, callback) {
-		  	callback(null, {_id: "562fac3cf9d752d5236aa8cb", content: 'Content', uuid: 'the-token-uuid', expiryDate: "2015-10-27T16:54:20.405Z", type: 'test', __v: 0});
+		  	callback(null, {_id: "562fac3cf9d752d5236aa8cb", content: 'Content', uuid: 'the-token-uuid', expiryDate: "2015-10-27T16:54:20.405Z", creator: 'some-user', type: 'test', __v: 0});
           };
-
           this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
-
 		  this.app = router({
               tokensApi: this.tokensApi,
-              createTokenValidator: createTokenValidator
-		});
+			  createTokenValidator: createTokenValidator
+		   });
 
 	    });
+
 	    it('returns 200 OK', function (done) {
 			request(this.app)
 				.get('/tokens/'+'random-token-uuid')
@@ -115,5 +113,60 @@ describe('TokensApi', function () {
 				.end(done);
 		});
 
+	    it('returns the content',function(done) {
+			request(this.app)
+				.get('/tokens/'+'random-token-uuid')
+				.expect(200)
+				.end(function(err, res) {
+					assert.isDefined(res.body, 'content');
+					done();
+				});
+	    });
+
+	    it('returns 403 when the user is not the owner', function(done) {
+	    	request(this.app)
+				.get('/tokens/'+'random-token-uuid')
+				.body({creator: 'other-user'})
+				.expect(403)
+				.end(function(err, res) {
+					
+					done();
+				});
+	    });
+
+	});
+
+    describe('ShowAll', function() {
+	    beforeEach(function() {
+
+	      this.tokenActions = TokenActions;
+          this.tokenActions.showAll = function(token, callback) {
+		  	callback(null, [{_id: "562fac3cf9d752d5236aa8cb", content: 'Content', uuid: 'the-token-uuid', expiryDate: "2015-10-27T16:54:20.405Z", type: 'test', __v: 0}]);
+          };
+
+          this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
+
+		  this.app = router({
+              tokensApi: this.tokensApi,
+			  createTokenValidator: createTokenValidator	
+          });
+
+	    });
+	    it('returns 200 OK', function (done) {
+			request(this.app)
+				.get('/tokens/')
+				.expect(200)
+				.end(done);
+		});
+
+		it('returns an array',function(done) {
+			request(this.app)
+				.get('/tokens/')
+				.expect(200)
+				.end(function(err, res) {
+					assert(Array.isArray(res.body));
+					done();
+				});
+	    });
 	});
 });

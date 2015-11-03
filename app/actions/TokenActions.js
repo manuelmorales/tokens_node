@@ -29,7 +29,7 @@ var tokenActions = function(Token) {
 
         showAll: function(params, callback) {
             Token.find({
-                createUser: params.userUuid
+                createUser: params.creator
             }, function(err, tokens){
                 callback(err, tokens);
             });
