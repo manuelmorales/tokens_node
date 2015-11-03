@@ -99,9 +99,9 @@ describe('authenticator', function () {
         assert(this.res.status.calledWith(401), '401 was not returned');
         assert(this.res.json.called, 'Error message was not returned');
         assert(this.res.json.calledWith({error: {message: 'Auth error'}}),
-          'Error message was not returned in format'
-        );
-        assert(this.res.end.called, 'Response was not ended');
+               'Error message was not returned in format'
+              );
+              assert(this.res.end.called, 'Response was not ended');
       });
     });
 
@@ -126,9 +126,9 @@ describe('authenticator', function () {
         assert(this.res.status.calledWith(401), '401 was not returned');
         assert(this.res.json.called, 'Error message was not returned');
         assert(this.res.json.calledWith({error: {message: 'Auth error'}}),
-          'Error message was not returned in format'
-        );
-        assert(this.res.end.called, 'Response was not ended');
+               'Error message was not returned in format'
+              );
+              assert(this.res.end.called, 'Response was not ended');
       });
     });
   });
