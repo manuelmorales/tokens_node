@@ -1,5 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var fs = require('fs');
+
+var logStream = fs.createWriteStream(__dirname + '/morgan.log',{flags: 'a'});
 
 var router = function (opts) {
 
@@ -9,8 +12,14 @@ var router = function (opts) {
 
   app.use(bodyParser.json());
 
+  if(opts.logger) { app.use(opts.logger("default", { stream: logStream })); }
   if(opts.swaggerMiddleware) { opts.swaggerMiddleware(app); }
   if(opts.authenticator) { app.use(opts.authenticator); }
+
+  app.use( function(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+  });
 
   app.post('/tokens', opts.createTokenValidator, this.tokensApi.createToken.bind(this.tokensApi));
 

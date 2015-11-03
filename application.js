@@ -1,3 +1,5 @@
+var logger = require('morgan');
+
 var Application = function (config) {
 	var mongoose = config.mongoose;
 	var tokensApi = config.tokensApi;
@@ -14,7 +16,8 @@ var Application = function (config) {
 			swaggerMiddleware: swaggerMiddleware,
 			tokensApi: tokensApi,
 			authenticator: authenticator,
-			createTokenValidator: createTokenValidator
+			createTokenValidator: createTokenValidator,
+			logger: logger
 		});
 	};
 
