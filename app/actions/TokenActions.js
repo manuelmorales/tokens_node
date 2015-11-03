@@ -21,13 +21,15 @@ var tokenActions = function(Token) {
 
         show: function(params, callback) {
             Token.findOne({ uuid: params.uuid }, function(err, token){
+                if(token===null)
+                    err=404;
                 callback(err, token);
             });
         },
 
         showAll: function(params, callback) {
             Token.find({
-                createUser: params.userUuid
+                createUser: params.creator
             }, function(err, tokens){
                 callback(err, tokens);
             });

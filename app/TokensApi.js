@@ -5,6 +5,7 @@ var createToken = function (req, res) {
 		if (err) {
 			res.send(500);
 		} else {
+			console.log(JSON.stringify(req.body));
 			res.header('Location', '/tokens/' + token.uuid);
 
 			res
@@ -17,7 +18,18 @@ var createToken = function (req, res) {
 var show = function (req, res) {
 	this.tokenActions.show(req.params, function(err,token) {
 		if(err)
-			res.send(404);
+			res.sendStatus(404);
+		else
+			res
+				.status(200)
+				.send(token);
+	})
+};
+
+var showAll = function (req, res) {
+	this.tokenActions.showAll(req.params, function(err,token) {
+		if(err)
+			res.sendStatus(500);
 		else
 			res
 				.status(200)
@@ -37,9 +49,10 @@ var destroy = function(req, res) {
 
 var TokensApi = function (opts) {
 	this.tokenActions = opts.tokenActions;
-	this.createToken = createToken.bind(this);
+	this.createToken = createToken.bind(this); 
 	this.show = show.bind(this);
 	this.destroy = destroy.bind(this);
+	this.showAll = showAll.bind(this);
 };
 
 module.exports = TokensApi;

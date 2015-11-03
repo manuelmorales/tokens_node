@@ -62,7 +62,7 @@ describe('TokenActions', function() {
         describe('getAll', function(){
             it('shows a token', function(done) {
                 tokenActions.showAll({
-                    userUuid: 'fake-user'
+                    creator: 'fake-user'
                 }, function(error, tokens){
                     assert.equal(tokens.length, 1);
                     done();

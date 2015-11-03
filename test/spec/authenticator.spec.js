@@ -1,6 +1,7 @@
 var sinon = require('sinon');
 var chai = require('chai');
 var assert = chai.assert;
+var should = require('should');
 var authenticator = require('../../app/authenticator');
 
 describe('authenticator', function () {
@@ -13,6 +14,8 @@ describe('authenticator', function () {
       },
       query: {
         sessionid: this.sessionid
+      },
+      body: {
       }
     };
 
@@ -30,7 +33,7 @@ describe('authenticator', function () {
     this.responseStatusCode = 200;
 
     this.buildResponse = function(){
-      this.response = { statusCode: this.responseStatusCode };
+      this.response = { statusCode: this.responseStatusCode, body: JSON.stringify({uuid : 'fake-uuid'})};
     };
 
     this.buildRequest = function(){
@@ -66,6 +69,11 @@ describe('authenticator', function () {
       this.authenticator(this.req, this.res, this.next);
 
       assert(this.next.called, 'Next was not called');
+    });
+
+    it('injects user uuid in the request', function () {
+      this.authenticator(this.req, this.res, this.next);
+      assert.property(this.req.body, 'creator');
     });
   });
 

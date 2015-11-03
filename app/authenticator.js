@@ -12,7 +12,7 @@ module.exports = function(opts){
         req.headers.cookie, [cookieKey, req.query.sessionid]
     );
 
-    verifyCurrentUser(cookies, {
+    verifyCurrentUser(req, cookies, {
       success: function(){
         next();
       },
@@ -32,13 +32,13 @@ module.exports = function(opts){
     return [cookies, elm.join('='), ''].join('; ');
   }
 
-  function verifyCurrentUser(session, opts){
+  function verifyCurrentUser(req, session, opts){
     var requestOpts = { url: authUrl, headers: { 'Cookie': session } };
     
     console.log("[Authenticator] Request: " + JSON.stringify(requestOpts));
     request(requestOpts, function (error, response, body) {
-      console.log("[Authenticator] Cirrus response: " + response.statusCode);
       if(!error && response.statusCode === 200) {
+        req.body.creator = JSON.parse(response.body).uuid;
         opts.success(response, body)
       } else {
         opts.failure(error);

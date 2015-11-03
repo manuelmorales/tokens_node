@@ -12,9 +12,7 @@ var router = function (opts) {
   if(opts.swaggerMiddleware) { opts.swaggerMiddleware(app); }
   if(opts.authenticator) { app.use(opts.authenticator); }
 
-
   app.post('/tokens', opts.createTokenValidator, this.tokensApi.createToken.bind(this.tokensApi));
-
 
   app.get('/ping', function(req,res){
     res.send('pong');
@@ -23,6 +21,7 @@ var router = function (opts) {
   app.get('/tokens/:uuid', this.tokensApi.show.bind(this.tokensApi));
   app.delete('/tokens/:uuid', this.tokensApi.destroy.bind(this.tokensApi));
 
+  app.get('/tokens/', this.tokensApi.showAll.bind(this.tokensApi));
 
   return app;
 };
