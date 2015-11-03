@@ -1,3 +1,8 @@
+
+var fs = require('fs');
+var configurationFile = './config/config.json';
+var configuration = JSON.parse(fs.readFileSync(configurationFile));
+
 var Token = require('./app/models/Token');
 var TokenActions = require('./app/actions/TokenActions')(Token);
 var TokensApi = require('./app/TokensApi');
@@ -6,13 +11,12 @@ var configFile = require('./config/config.json');
 var router = require('./app/router');
 var swaggerMiddleware = require('./app/swaggerMiddleware')({ overrides: __dirname + '/swagger-ui/' });
 
-var tokensApi = new TokensApi({tokenActions: TokenActions});
 var authenticator = require('./app/authenticator')({
-	url: 'http://qa.workshare.com/current_user.json',
+	url: configuration.cirrus.url,
 	request: require('request')
 });
 
-var buildCurrentUserMiddleware  = require('./app/buildCurrentUserMiddleware');
+var tokensApi = new TokensApi({tokenActions: TokenActions});
 
 module.exports = {
 	tokensApi: tokensApi,

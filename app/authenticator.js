@@ -34,8 +34,7 @@ module.exports = function(opts){
 
   function verifyCurrentUser(req, session, opts){
     var requestOpts = { url: authUrl, headers: { 'Cookie': session } };
-
-    console.log("[Authenticator] Request: " + JSON.stringify(requestOpts));
+    
     request(requestOpts, function (error, response, body) {
       if(!error && response.statusCode === 200) {
         req.body.creator = JSON.parse(response.body).uuid;
