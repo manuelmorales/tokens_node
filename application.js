@@ -8,6 +8,7 @@ var Application = function (config) {
 	var router = config.router;
 	var swaggerMiddleware = config.swaggerMiddleware;
 	var logger = config.logger;
+	var healthcheck = config.healthcheck;
 
 	this.server = function () { 
 		mongoose.connect(configFile.mongo.uri, configFile.mongo.options);
@@ -17,7 +18,8 @@ var Application = function (config) {
 			tokensApi: tokensApi,
 			authenticator: authenticator,
 			createTokenValidator: createTokenValidator,
-			logger: logger
+			logger: logger,
+			healthcheck: healthcheck
 		});
 	};
 

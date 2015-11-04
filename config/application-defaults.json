@@ -5,7 +5,7 @@
     "uri": "mongodb://localhost/tokens"
   },
   "cirrus": {
-    "url": "http://qa.workshare.com/current_user.json"
+    "url": "http://qa.workshare.com/"
   },
   "redis": {
     "host": "localhost",

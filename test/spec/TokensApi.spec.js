@@ -147,7 +147,7 @@ describe('TokensApi', function () {
 
       this.app = router({
         tokensApi: this.tokensApi,
-        createTokenValidator: createTokenValidator
+        createTokenValidator: createTokenValidator,
       });
 
     });

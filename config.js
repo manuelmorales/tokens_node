@@ -14,8 +14,13 @@ var router = require('./app/router');
 var swaggerMiddleware = require('./app/swaggerMiddleware')({ overrides: __dirname + '/swagger-ui/' });
 
 var authenticator = require('./app/authenticator')({
-	url: configuration.cirrus.url,
+	url: configuration.cirrus.url+'current_user.json',
 	request: require('request')
+});
+
+var healthcheck = require('./app/healthcheck')({
+	url: configuration.cirrus.url+'is_alive',
+	request: require('request'),
 });
 
 var tokensApi = new TokensApi({tokenActions: TokenActions});
@@ -28,5 +33,6 @@ module.exports = {
 	configFile: require(configurationFile),
 	router: router,
 	swaggerMiddleware: swaggerMiddleware,
-	logger: logger
+	logger: logger,
+	healthcheck: healthcheck
 };

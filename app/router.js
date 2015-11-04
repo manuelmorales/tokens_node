@@ -1,8 +1,5 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var fs = require('fs');
-
-var logStream = fs.createWriteStream(__dirname + '/morgan.log',{flags: 'a'});
 
 var router = function (opts) {
 
@@ -15,6 +12,8 @@ var router = function (opts) {
   if(opts.logger) { app.use(opts.logger("short")); }
   if(opts.swaggerMiddleware) { opts.swaggerMiddleware(app); }
   if(opts.authenticator) { app.use(opts.authenticator); }
+
+  if(opts.healthcheck) { app.get('/healthcheck',opts.healthcheck); }
 
   app.use( function(err, req, res, next) {
     console.error(err.stack);
