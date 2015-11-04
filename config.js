@@ -8,6 +8,7 @@ var TokenActions = require('./app/actions/TokenActions')(Token);
 var createTokenValidator = require('./app/createTokenValidator');
 var TokensApi = require('./app/TokensApi');
 var mongoose = require('mongoose')
+var logger = require('morgan');
 
 var router = require('./app/router');
 var swaggerMiddleware = require('./app/swaggerMiddleware')({ overrides: __dirname + '/swagger-ui/' });
@@ -26,5 +27,6 @@ module.exports = {
 	mongoose: mongoose,
 	configFile: require(configurationFile),
 	router: router,
-	swaggerMiddleware: swaggerMiddleware
+	swaggerMiddleware: swaggerMiddleware,
+	logger: logger
 };

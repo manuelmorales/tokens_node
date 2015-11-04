@@ -6,7 +6,6 @@ var createToken = function (req, res) {
       res.send(500);
     } else {
       res.header('Location', '/tokens/' + token.uuid);
-
       res
       .status(201)
       .send();

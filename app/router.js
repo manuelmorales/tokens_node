@@ -12,7 +12,7 @@ var router = function (opts) {
 
   app.use(bodyParser.json());
 
-  if(opts.logger) { app.use(opts.logger("default", { stream: logStream })); }
+  if(opts.logger) { app.use(opts.logger("short")); }
   if(opts.swaggerMiddleware) { opts.swaggerMiddleware(app); }
   if(opts.authenticator) { app.use(opts.authenticator); }
 

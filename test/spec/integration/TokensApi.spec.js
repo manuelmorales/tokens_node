@@ -1,12 +1,18 @@
 var config = require('../../../config');
 var request = require('supertest');
+var router = require('../../../app/router');
 var Application = require('../../../application');
 var chai = require('chai');
 var expect = chai.expect;
 var Token = require('../../../app/models/Token');
 
+var TokensApi = require('../../../app/TokensApi');
+var tokenActions = require('../../../app/actions/TokenActions');
+var createTokenValidator = require('../../../app/createTokenValidator');
+
 describe('integration', function () {
   before(function() {
+
     this.validToken = {
       content: 'content',
       type: 'login',
@@ -18,6 +24,7 @@ describe('integration', function () {
     }
 
     delete config.authenticator;
+    delete config.logger;
 
     this.application = new Application(config);
 
@@ -31,6 +38,54 @@ describe('integration', function () {
 
   afterEach(function(){
     Token.remove({}).exec();
+  });
+
+  describe('Error handler',function() {
+    
+    describe('Handles an exception raised by an action', function() {
+      before(function() {
+            this.tokenActions = tokenActions;
+            this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
+            this.app = router({
+              tokensApi: this.tokensApi,
+              logger: null,
+              createTokenValidator: createTokenValidator
+            });
+            this.tokenActions.create= function(token, callback) {
+              throw('err');
+            };
+          });
+      it('Returns 500', function(done) {
+          request(this.app)
+          .post('/tokens')
+          .send(this.validToken)
+          .expect(500)
+          .end(done);
+      });
+    }); 
+    
+    describe('Handles an exception raised by the api', function() {
+      before(function() {
+            this.tokenActions = tokenActions;
+            this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
+            this.app = router({
+              tokensApi: this.tokensApi,
+              createTokenValidator: createTokenValidator
+            });
+            this.tokensApi.createToken = function(token, callback) {
+              throw('err');
+            };
+          });
+      it('Returns 500', function(done) {
+          request(this.app)
+          .post('/tokens')
+          .send(this.validToken)
+          .expect(500)
+          .end(done);
+      });
+    });
+
+
   });
 
   describe('TokensApi', function () {
@@ -162,7 +217,6 @@ describe('integration', function () {
           });
         });
       });
-
     });
   });
 });

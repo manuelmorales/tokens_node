@@ -1,4 +1,3 @@
-var logger = require('morgan');
 
 var Application = function (config) {
 	var mongoose = config.mongoose;
@@ -8,6 +7,7 @@ var Application = function (config) {
 	var configFile = config.configFile;
 	var router = config.router;
 	var swaggerMiddleware = config.swaggerMiddleware;
+	var logger = config.logger;
 
 	this.server = function () { 
 		mongoose.connect(configFile.mongo.uri, configFile.mongo.options);
