@@ -15,8 +15,10 @@ var createToken = function (req, res) {
 
 var show = function (req, res) {
   this.tokenActions.show(req.params, function(err,token) {
-    if(err)
+    if(!token)
       res.sendStatus(404);
+    else if(err)
+      res.sendStatus(500);
     else
       res
     .status(200)
@@ -25,13 +27,13 @@ var show = function (req, res) {
 };
 
 var showAll = function (req, res) {
-  this.tokenActions.showAll(req.params, function(err,token) {
+  this.tokenActions.showAll(req.params, function(err,tokens) {
     if(err)
       res.sendStatus(500);
     else
       res
     .status(200)
-    .send(token);
+    .send(tokens);
   })
 };
 
