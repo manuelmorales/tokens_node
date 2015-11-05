@@ -7,6 +7,11 @@ var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 var assert = chai.assert;
+
+var Token = require('../../app/models/Token');
+var mongoose = require('mongoose');
+var Promise = mongoose.Promise;
+
 var expect = chai.expect;
 
 var createTokenValidator = require('../../app/createTokenValidator');
@@ -95,11 +100,16 @@ describe('TokensApi', function () {
 
   describe('Show', function() {
     beforeEach(function() {
-      this.tokenActions = TokenActions;
-      this.tokenActions.show= function(token, callback) {
-        callback(null, {_id: "562fac3cf9d752d5236aa8cb", content: 'Content', uuid: 'the-token-uuid', expiryDate: "2015-10-27T16:54:20.405Z", creator: 'some-user', type: 'test', __v: 0});
+
+      var tokenActions = {};
+      var promise = new Promise();
+      tokenActions.showAll = function(token) {
+        return promise.resolve();
       };
+
+
       this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
+
       this.app = router({
         tokensApi: this.tokensApi,
         createTokenValidator: createTokenValidator
@@ -107,11 +117,11 @@ describe('TokensApi', function () {
 
     });
 
-    it('returns 200 OK', function (done) {
+    it.only('returns 200 OK', function (done) {
       request(this.app)
-      .get('/tokens/'+'random-token-uuid')
-      .expect(200)
-      .end(done);
+        .get('/tokens/'+'random-token-uuid')
+        .expect(200)
+        .end(done);
     });
 
     it('returns the content',function(done) {
@@ -151,6 +161,7 @@ describe('TokensApi', function () {
       });
 
     });
+
     it('returns 200 OK', function (done) {
       request(this.app)
       .get('/tokens/')

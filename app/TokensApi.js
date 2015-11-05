@@ -14,14 +14,15 @@ var createToken = function (req, res) {
 };
 
 var show = function (req, res) {
-  this.tokenActions.show(req.params, function(err,token) {
-    if(err)
-      res.sendStatus(404);
-    else
-      res
-    .status(200)
-    .send(token);
-  })
+  this.tokenActions.show(req.params)
+      .then(function(err,token) {
+
+        if (token === null) {
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(token);
+        }
+      });
 };
 
 var showAll = function (req, res) {
