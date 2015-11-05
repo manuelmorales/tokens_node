@@ -30,5 +30,6 @@ module.exports = {
 	configFile: require(configurationFile),
 	router: router,
 	swaggerMiddleware: swaggerMiddleware,
-	logger: logger
+	logger: logger,
+	configuration: configuration
 };
