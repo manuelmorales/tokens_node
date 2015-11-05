@@ -68,14 +68,17 @@ describe('integration', function () {
       before(function() {
             this.tokenActions = tokenActions;
             this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
+
             this.app = router({
               tokensApi: this.tokensApi,
               createTokenValidator: createTokenValidator
             });
+
             this.tokensApi.createToken = function(token, callback) {
               throw('err');
             };
-          });
+      });
+
       it('Returns 500', function(done) {
           request(this.app)
           .post('/tokens')

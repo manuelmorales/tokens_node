@@ -7,7 +7,7 @@ var Token = require('./app/models/Token');
 var TokenActions = require('./app/actions/TokenActions')(Token);
 var createTokenValidator = require('./app/createTokenValidator');
 var TokensApi = require('./app/TokensApi');
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
 var logger = require('morgan');
 
 var router = require('./app/router');
