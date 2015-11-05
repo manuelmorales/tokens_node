@@ -1,12 +1,10 @@
-module.exports  = function (opts) {
-	var requestOpts = { url: opts.url };
-	var request = opts.request;
+var healhtheck = function(req, res) {
+	
 	var cirrusState = 'healthy';
 	var mongoState = 'healthy';
 	var mongoose = require('mongoose');
 
-	function checkHealth (req, res, next) {  
-		request(requestOpts, function(err, res, body) {
+	request(requestOpts, function(err, res, body) {
 			if(res.status == 500 || err) {
 				cirrusState = 'unhealthy';
 			}
@@ -16,8 +14,19 @@ module.exports  = function (opts) {
       		if (err || !result)
         		mongoState = 'unhealthy'
 		});
-		next();
-	}
+	
+	if(mongoState === 'unhealthy' || cirrusState === 'unhealthy')
+		res
+			.status(500)
+		    .send();
+}
 
-	return checkHealth;
+var healthcheckApi = function (opts) {
+  
+  this.healhtheck = healhtheck.bind(this);
+  this.requestOpts = { url: opts.url };
+  this.request = opts.request;
+  
 };
+
+module.exports = TokensApi;
