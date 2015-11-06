@@ -1,12 +1,10 @@
-var date = new Date();
-
 var tokenActions = function(Token) {
   return {
     create : function(params, callback) {
       var token = new Token({
         createUser: params.creator,
         content:    params.content,
-        expiryDate: date.setDate(new Date().getDate() + params.maxAge),
+        expiryDate: this.getExpiryDate(new Date(), params.maxAge), 
         type: params.type
       });
       token.save(function (err) {
@@ -16,7 +14,6 @@ var tokenActions = function(Token) {
           callback(null, token);
         }
       });
-      date = new Date();
     },
 
     show: function(params, callback) {
@@ -37,6 +34,10 @@ var tokenActions = function(Token) {
 
     destroy: function(params, callback) {
       Token.findOneAndRemove({ uuid: params.uuid }, {passRawResult: true}, callback);
+    },
+
+    getExpiryDate: function(date, maxAge) {
+      return date.setDate(date.getDate() + maxAge)
     }
   }
 
