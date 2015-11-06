@@ -5,12 +5,15 @@ var TokensApi = require('../../app/TokensApi');
 var chai = require('chai');
 var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
+var mongoose = require('mongoose');
+require('sinon-as-promised')(mongoose.Promise);
+
 chai.use(sinonChai);
+
 var assert = chai.assert;
 
 var Token = require('../../app/models/Token');
-var mongoose = require('mongoose');
-var Promise = mongoose.Promise;
+
 
 var expect = chai.expect;
 
@@ -101,14 +104,12 @@ describe('TokensApi', function () {
   describe('Show', function() {
     beforeEach(function() {
 
-      var tokenActions = {};
-      var promise = new Promise();
-      tokenActions.showAll = function(token) {
-        return promise.resolve();
-      };
-
-
       this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
+
+      sinon.stub(this.tokenActions, 'show').resolves(function() {
+        console.log('hello');
+        return 'foo';
+      });
 
       this.app = router({
         tokensApi: this.tokensApi,
@@ -118,6 +119,10 @@ describe('TokensApi', function () {
     });
 
     it.only('returns 200 OK', function (done) {
+
+        console.log('lalallaa');
+        console.log(this.tokenActions.show);
+
       request(this.app)
         .get('/tokens/'+'random-token-uuid')
         .expect(200)

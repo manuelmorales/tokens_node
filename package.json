@@ -12,15 +12,17 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
+    "chai-as-promised": "^5.1.0",
     "jshint": "^2.8.0",
     "jshint-stylish-ex": "^0.2.0",
     "mocha": "^2.3.2",
-    "supertest": "^1.1.0",
-    "sinon": "^1.16.1",
-    "sinon-chai": "^2.8.0",
-    "supervisor": "^0.8.0",
+    "node-inspector": "latest",
     "request": "latest",
-    "node-inspector": "latest"
+    "sinon": "^1.16.1",
+    "sinon-as-promised": "^4.0.0",
+    "sinon-chai": "^2.8.0",
+    "supertest": "^1.1.0",
+    "supervisor": "^0.8.0"
   },
   "dependencies": {
     "body-parser": "^1.14.1",

@@ -44,7 +44,7 @@ var destroy = function(req, res) {
       res.sendStatus(204);
     }
   });
-}
+};
 
 var TokensApi = function (opts) {
   this.tokenActions = opts.tokenActions;

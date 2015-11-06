@@ -19,7 +19,7 @@ var tokenActions = function(Token) {
       date = new Date();
     },
 
-    show: function(params, callback) {
+    show: function(params) {
       return Token.findOne({ uuid: params.uuid }).exec();
     },
 
