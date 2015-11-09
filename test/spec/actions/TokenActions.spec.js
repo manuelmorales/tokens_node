@@ -1,5 +1,6 @@
 var chai = require('chai');
 var assert = chai.assert;
+var expect = chai.expect;
 var err = false;
 var mongoose = require('mongoose');
 
@@ -19,6 +20,16 @@ var doubleToken = function(params) {
 var tokenActions = require('../../../app/actions/TokenActions')(doubleToken);
 
 describe('TokenActions', function() {
+  describe('get expiry date', function() {
+    it('returns the expiry date of a token', function(done){
+      var maxAge = 20;
+      var date = new Date("2015-11-06");
+      var expiryDate = 1448496000000;
+      expect(tokenActions.getExpiryDate(date, maxAge)).to.deep.equal(expiryDate);
+      done();
+    });
+  });
+
   describe('create', function() {
     it('creates a token', function(done){
       tokenActions.create({
