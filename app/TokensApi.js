@@ -14,11 +14,14 @@ var createToken = function (req, res) {
 };
 
 var show = function (req, res) {
+  var current_user_uuid = req.body.creator
   this.tokenActions.show(req.params, function(err,token) {
     if(!token)
       res.sendStatus(404);
     else if(err)
       res.sendStatus(500);
+    else if(token['creator'] != current_user_uuid)
+      res.sendStatus(403);
     else
       res
     .status(200)

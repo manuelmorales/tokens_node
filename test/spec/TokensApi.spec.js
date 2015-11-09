@@ -99,6 +99,7 @@ describe('TokensApi', function () {
       this.tokenActions.show= function(token, callback) {
         callback(null, {_id: "562fac3cf9d752d5236aa8cb", content: 'Content', uuid: 'the-token-uuid', expiryDate: "2015-10-27T16:54:20.405Z", creator: 'some-user', type: 'test', __v: 0});
       };
+
       this.tokensApi = new TokensApi({tokenActions: this.tokenActions});
       this.app = router({
         tokensApi: this.tokensApi,
@@ -108,16 +109,21 @@ describe('TokensApi', function () {
     });
 
     it('returns 200 OK', function (done) {
+      var creator = { creator: 'some-user' }
+
       request(this.app)
       .get('/tokens/'+'random-token-uuid')
+      .send(creator)
       .expect(200)
       .end(done);
     });
 
     it('returns the content',function(done) {
+      var creator = { creator: 'some-user' }
+
       request(this.app)
       .get('/tokens/'+'random-token-uuid')
-      .expect(200)
+      .send(creator)
       .end(function(err, res) {
         assert.isDefined(res.body, 'content');
         done();
@@ -125,12 +131,12 @@ describe('TokensApi', function () {
     });
 
     it('returns 403 when the user is not the owner', function(done) {
+      var creator = { creator: 'uuid' }
       request(this.app)
       .get('/tokens/'+'random-token-uuid')
+      .send(creator)
       .expect(403)
-      .end(function(err, res) {
-        done();
-      });
+      .end(done);
     });
 
   });
