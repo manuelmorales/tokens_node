@@ -1,6 +1,8 @@
 
 var fs = require('fs');
-var configurationFile = './config/application-defaults.json';
+var defaultConfigFile = './config/application-defaults.json'
+var configFile = './config/application.json'
+var configurationFile = fs.existsSync(configFile) ? configFile : defaultConfigFile;
 var configuration = JSON.parse(fs.readFileSync(configurationFile));
 
 var Token = require('./app/models/Token');
@@ -28,5 +30,6 @@ module.exports = {
 	configFile: require(configurationFile),
 	router: router,
 	swaggerMiddleware: swaggerMiddleware,
-	logger: logger
+	logger: logger,
+	configuration: configuration
 };
